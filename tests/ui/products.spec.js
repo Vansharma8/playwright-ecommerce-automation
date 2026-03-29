@@ -1,14 +1,17 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../pages/LoginPage';
 import { ProductPage } from '../../pages/ProductPage';
+import { CommonPage } from '../../pages/CommonPage';
 
 test.describe("Product Page Tests", () => {
     let Login;
     let Product;
+    let Common;
 
     test.beforeEach(async({page}) => {
         Login = new LoginPage(page);
         Product = new ProductPage(page);
+        Common = new CommonPage(page);
         await Login.gotoLoginPage();
         await Login.login('JohnNew@gmail.com', 'John@100');
         await Product.gotoProductsPage();
@@ -32,9 +35,9 @@ test.describe("Product Page Tests", () => {
     test('Verifying Add to Cart and Product Filtering @products', async({page}) => {
         await Product.searchProduct('Polo');
         await Product.addProductToCart('Polo');
-        await expect(Product.cartModal_title).toHaveText('Added!');
-        await expect(Product.cartModal_body).toContainText('Your product has been added to cart.');
-        await Product.cartModal_close_button.click();
+        await expect(Common.modal_title).toHaveText('Added!');
+        await expect(Common.modal_body).toContainText('Your product has been added to cart.');
+        await Common.continueShopping();
         await Product.viewProductDetails(30);
     }); 
 

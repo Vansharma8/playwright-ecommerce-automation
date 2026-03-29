@@ -70,4 +70,9 @@ exports.ProductPage = class ProductPage{
         await this.selectBrand(brandName).click();
     }
 
+    async viewProductDetails(productId){
+    await this.page.waitForLoadState('networkidle');
+    await this.viewProduct(productId).click();
+}
+
 }
