@@ -28,6 +28,7 @@ test('Verify Cart Functionality @smoke @cart', async ({ page }) => {
     // add product 1
     await Product.gotoProductsPage();
     await Product.viewProductDetails(30);
+    await page.waitForLoadState('networkidle');
     await ProductDetail.setQuantity(2);
     await ProductDetail.addToCart();
     await Common.continueShopping();
@@ -35,6 +36,7 @@ test('Verify Cart Functionality @smoke @cart', async ({ page }) => {
     // add product 2
     await Product.gotoProductsPage();
     await Product.viewProductDetails(1);
+    await page.waitForLoadState('networkidle');
     await ProductDetail.setQuantity(3);
     await ProductDetail.addToCart();
     await Common.viewCart();
