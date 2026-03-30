@@ -71,7 +71,7 @@ exports.ProductPage = class ProductPage{
     }
 
     async viewProductDetails(productId){
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('domcontentloaded');
     await this.viewProduct(productId).click();
 }
 

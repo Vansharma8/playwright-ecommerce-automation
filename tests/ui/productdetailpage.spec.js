@@ -19,7 +19,6 @@ test.describe("Product Detail Page Tests", () => {
         await Login.login('JohnNew@gmail.com', 'John@100');
         await Product.gotoProductsPage();
         await Product.viewProductDetails(30);
-        await page.waitForLoadState('networkidle');
     });
 
     test('Verify Product Details @smoke @productdetails', async({page}) => {
