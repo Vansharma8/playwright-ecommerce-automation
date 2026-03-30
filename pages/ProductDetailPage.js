@@ -13,8 +13,8 @@ exports.ProductDetailPage = class ProductDetailPage{
     }
 
     async setQuantity(quantity){
-        await this.quantity_input.fill(quantity.toString());
         await this.page.waitForLoadState('domcontentloaded');
+        await this.quantity_input.fill(quantity.toString());
     }
 
     async addToCart(){
