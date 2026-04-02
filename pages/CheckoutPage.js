@@ -25,11 +25,17 @@ exports.CheckoutPage = class CheckoutPage {
     async clickPayButton(){
         await this.pay_button.click();
     }
-    async downloadInvoice(){
-    const downloadPromise = this.page.waitForEvent('download');
-    await this.download_invoice.click();
-    return await downloadPromise;
-}
+  async downloadInvoice() {
+    await this.download_invoice.scrollIntoViewIfNeeded();
+    await this.download_invoice.waitFor({ state: 'visible' });
+
+    const [download] = await Promise.all([
+        this.page.waitForEvent('download'),
+        this.download_invoice.click()
+    ]);
+
+    return download;
+    }
     async clickContinueButton(){
         await this.continue_button.click();
     }

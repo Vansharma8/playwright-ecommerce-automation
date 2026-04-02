@@ -54,10 +54,6 @@ exports.ProductPage = class ProductPage{
         await this.CartButton(productName).click();
     }
 
-    async viewProductDetails(productId){
-        await this.viewProduct(productId).click();
-    }
-
     async filterByCategory(categoryName){
         await this.selectCategory(categoryName).click();
     }
@@ -70,8 +66,13 @@ exports.ProductPage = class ProductPage{
         await this.selectBrand(brandName).click();
     }
 
-    async viewProductDetails(productId){
-    await this.viewProduct(productId).click();
+  async viewProductDetails(productId) {
+    const product = this.viewProduct(productId);
+
+    await product.scrollIntoViewIfNeeded();
+    await product.waitFor({ state: 'visible' });
+    await product.click();
+
     await this.page.waitForLoadState('domcontentloaded');
 }
 
