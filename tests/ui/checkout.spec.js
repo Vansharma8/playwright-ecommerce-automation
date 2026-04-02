@@ -5,7 +5,6 @@ import { ProductDetailPage } from '../../pages/ProductDetailPage';
 import { CartPage } from '../../pages/CartPage';
 import { CommonPage } from '../../pages/CommonPage';
 import { CheckoutPage } from '../../pages/CheckoutPage';
-import path from 'path';
 
 test.describe('Checkout Tests', () => {
     let Login, Product, ProductDetail, Cart, Checkout, Common;
@@ -47,25 +46,13 @@ test.describe('Checkout Tests', () => {
         await expect(Checkout.continue_button).toBeVisible();
     });
 
-    test('Verify Invoice Download @regression @download', async ({page}) => {
-        await Checkout.enterCardDetails( 'John D', '556833775', '552', '10', '2029');
+      test('Download invoice @regression @download', async ({ page, browserName }) => {
+        test.skip(browserName === 'webkit', 'webkit opens downloads as navigation');
+        await Checkout.enterCardDetails('John Doe', '556833775', '552', '10', '2029');
         await Checkout.clickPayButton();
         await expect(Checkout.order_placed_heading).toBeVisible();
-
         const download = await Checkout.downloadInvoice();
-        
-        if (download) {
-        const filename = await download.suggestedFilename();
-        console.log(`Invoice downloaded successfully: ${filename}`);
-
-        expect(filename.toLowerCase()).toContain('invoice');
-        }
-        
-        else {
-        console.log('WebKit detected - Download triggered but event not captured');
-        await expect(Checkout.download_invoice).toBeVisible();
-    }
-
+        expect(download.suggestedFilename().toLowerCase()).toContain('invoice');
     });
 
 });

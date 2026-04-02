@@ -26,25 +26,10 @@ exports.CheckoutPage = class CheckoutPage {
         await this.pay_button.click();
     }
 
-    async downloadInvoice() {
-        await this.download_invoice.scrollIntoViewIfNeeded();
-        await this.download_invoice.waitFor({ state: 'visible', timeout: 15000 });
-        const browserName = this.page.context().browser()?.browserType().name();
-
-        if (browserName === 'webkit') {
-        console.log('WebKit detected - invoice may open as navigation instead of download');
-        await this.download_invoice.click();
-        await this.page.waitForTimeout(2000);
-        return null;
-    }
-
-    console.log(`Downloading invoice on ${browserName}...`);
-
-    const [download] = await Promise.all([
-        this.page.waitForEvent('download', { timeout: 45000 }),
-        this.download_invoice.click()
-    ]);
-
+    async downloadInvoice(){
+    const downloadPromise = this.page.waitForEvent('download');
+    await this.download_invoice.click();
+    const download = await downloadPromise;
     return download;
 }
     async clickContinueButton(){
